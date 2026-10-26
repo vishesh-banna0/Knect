@@ -1,7 +1,3 @@
-
-The specification below uses Meta’s documented [models](https://dev.meta.ai/docs/models), [standard pricing](https://dev.meta.ai/docs/pricing-rate-limits), and [structured-output interface](https://dev.meta.ai/docs/structured-output). Local search follows [SQLite FTS5](https://sqlite.org/fts5.html); secret detection uses [Gitleaks](https://github.com/gitleaks/gitleaks). Public documentation does not establish eligibility or billing controls for your particular credit allocation.
-
-````markdown
 # Knect
 
 ## Knowledge + Connect
@@ -2041,4 +2037,3 @@ validation, performance measurement, or benchmark execution.
 
 **Remaining critical gates:** Meta credit activation, account-level spending
 controls, and successful evaluation of the complete workflow.
-````
