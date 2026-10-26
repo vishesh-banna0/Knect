@@ -1,8 +1,3 @@
-### `PLAN.md`
-
-The following technical choices also account for VS Code’s [Workspace Trust requirements](https://code.visualstudio.com/api/extension-guides/workspace-trust). Model budgeting uses Meta’s [published standard rates](https://dev.meta.ai/docs/pricing-rate-limits); account eligibility and spending enforcement still require verification.
-
-````markdown
 # Knect — Engineering and Delivery Plan
 
 This document defines how to build the product described in [README.md](README.md). It covers the VS Code integration, knowledge lifecycle, system boundaries, evaluation, budget, and delivery sequence.
@@ -380,4 +375,3 @@ The main corpus may be prepared beforehand through the real workflow. Show gener
 The README remains the short product introduction. This plan holds engineering details; actual setup commands and measured results are added only after they exist and have been checked.
 
 **Unverified:** application behavior, model quality, installation reliability, and runtime performance remain to be tested. The principal delivery risks are delayed API access and completing the extension-to-service review loop early enough for evaluation.
-
