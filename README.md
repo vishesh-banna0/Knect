@@ -1,60 +1,76 @@
 # Knect
-
 ### Knowledge + Connect
-**Turn code changes into knowledge your team can trust.**
 
-Knect is a Meta-powered VS Code extension designed to preserve the reasoning behind a project as the team builds it. It connects code changes with the decisions, experiments, failures, and precautions that help other contributors understand the work.
+**Turn everyday code changes into shared understanding.**
 
-After a developer commits a change, Knect prepares a proposed knowledge update and offers it for review. The developer can correct the explanation in chat, add the reasoning that code cannot reveal, and approve exactly what becomes part of the team’s shared memory.
+Knect is a Meta-powered VS Code extension designed to help teams preserve the reasoning behind their work. It connects code changes with the decisions, experiments, failures, and precautions that other contributors need to understand a project.
 
-> **Status:** Product design finalized; development has not started. This README describes the intended experience. Architecture, delivery milestones, evaluation, and operating constraints are documented in [PLAN.md](PLAN.md).
+When a developer commits a change, Knect prepares a proposed knowledge update. The developer reviews it, adds missing context through conversation, and approves what becomes part of the team’s shared memory. That knowledge remains connected to its author and supporting evidence, ready to help the next person working on the project.
 
-## Keep the reasoning alongside the work
+> **Project status:** Design and specification stage. The extension has not yet been implemented.
 
-Repositories preserve changes, but the explanation behind those changes often remains in someone’s memory or disappears into a conversation. A future contributor may discover what changed without understanding which experiment justified it, what previously failed, or why a particular constraint matters.
+## Why Knect
 
-Knect captures that context while it is still fresh. Approved contributions remain connected to their author, source commit, supporting evidence, and applicable conditions, giving the team a shared understanding that can be inspected and revised.
+A repository records what changed, but it rarely captures the complete explanation. Why was an approach abandoned? Which experiment justified a decision? What failed before, and under which conditions? These details often remain in conversations or individual memory.
 
-## A natural part of the development workflow
+When that context disappears, contributors repeat investigations, misunderstand constraints, or unknowingly reintroduce old problems. Knect brings knowledge capture into the development workflow, while the person making the change still remembers the reasoning.
+
+## From a commit to shared knowledge
 
 ```mermaid
 flowchart LR
-    commit["Commit a change"]
-    draft["Review the proposed knowledge"]
-    discuss["Explain or correct it in chat"]
-    publish["Approve the shared update"]
-    reuse["Help the next contributor"]
-
-    commit --> draft --> discuss --> publish --> reuse
+    change["Commit a change"] --> proposal["Review a knowledge draft"]
+    proposal --> conversation["Add context in chat"]
+    conversation --> approval["Approve selected findings"]
+    approval --> knowledge["Share evidence-backed knowledge"]
 ```
 
-Knect notices new commits in an enabled repository and presents a notification with the option to review now or later. The review panel shows the proposed findings, relevant evidence, and any questions the model cannot answer confidently. Nothing becomes shared knowledge until an authorized person approves it, and Git commits and pushes continue normally.
+After a commit in an enabled repository, Knect offers a review notification. Its panel presents the proposed findings, supporting code references, and questions that need clarification. The developer can correct an interpretation, explain a trade-off, approve individual findings, or leave the review for later.
 
-For example, a change reduces retries from five attempts to two. Knect can see the modification, but it should not invent the reason. The developer explains: “Long retries were creating duplicate jobs after a timeout; this was not a performance optimization.” Knect incorporates that explanation, links it to the change, and presents the revised contribution for approval.
+Conversation refines the draft; explicit approval publishes it. Git commits and pushes continue normally, and unapproved proposals remain outside the team’s shared knowledge.
 
-## A shared memory that remains useful
+## Capture the explanation that code cannot provide
 
-Team members can contribute implementation notes, experimental results, decisions, and warnings to the same workspace. Knect connects related findings and compares their conditions before treating different results as a contradiction.
+Consider a change that reduces retries from five attempts to two. The code shows the modification, but it does not establish the motivation.
 
-A contributor working on a file can inspect relevant guidance beside the code. A newcomer can ask what they need to know about a component and receive an explanation covering its purpose, important decisions, known failures, and unresolved questions—with references to the underlying evidence.
+Knect might ask:
 
-When later changes affect existing guidance, Knect proposes a reassessment. Previous interpretations remain available, so the team can understand both the current recommendation and how it developed.
+> “What problem led to reducing the retry limit?”
 
-## Review improves future contributions
+The developer explains:
 
-Accepted corrections become part of the project’s memory. Future proposals can reuse relevant explanations and explicitly approved team rules, reducing repeated misunderstandings while keeping feedback tied to its original context.
+> “Timed-out requests were sometimes creating duplicate jobs. We reduced retries to limit repeated execution while investigating the underlying issue.”
 
-Knect distinguishes code observations, contributor explanations, and model interpretations. It preserves uncertainty when evidence is incomplete and never treats a generated statement as proof simply because it sounds confident.
+Knect incorporates that explanation, links it to the commit, and presents the revised finding for approval. It preserves the distinction between an observable code change, the contributor’s explanation, and a conclusion that still needs experimental evidence.
 
-## Built around developer control
+## Make individual findings useful to the whole team
 
-Knect lives inside VS Code through a sidebar, review panel, chat, and evidence links. Repository monitoring is enabled explicitly, and developers can approve individual knowledge items, revise them, reject them, or leave them for later.
+Contributors can share technical notes, experimental results, decisions, and warnings within a common workspace. Knect connects related contributions and compares their conditions before treating different results as a contradiction.
 
-Sensitive content is scanned locally before model requests. Enabling Meta analysis permits selected sanitized evidence to leave the device for inference; approving publication is a separate decision that controls what teammates can access.
+A developer investigating a component can ask why a particular approach was chosen. A newcomer can request a focused handover covering important files, accepted decisions, known failures, and unresolved questions. Answers point back to the evidence so contributors can inspect the reasoning themselves.
 
-The first release uses a local service and supports separate authenticated contributor sessions on one laptop. Hosted access for geographically distributed teams is a later extension of the product.
+When later changes affect published guidance, Knect flags it for review. Revised conclusions preserve their history, allowing the team to understand both the current recommendation and how it developed.
 
-**Code records what changed. Knect helps the team retain why it mattered.**
+## Work where the context already exists
 
-Read [PLAN.md](PLAN.md) for the complete engineering and delivery plan.
+Knect’s primary interface lives inside VS Code. A sidebar provides access to shared knowledge and pending reviews, while a dedicated panel supports discussion, evidence inspection, and approval. Relevant warnings and decisions remain accessible alongside the files they concern.
 
+The first release is planned around a local knowledge service with separate authenticated contributor sessions. Hosted access for teams working from different locations is a later extension.
+
+## Improve through feedback without losing accountability
+
+Approved corrections can inform future proposals when they are relevant to the same task or component. Contributors can also explicitly approve reusable team guidance, helping Knect avoid repeating known misunderstandings.
+
+This feedback improves the project’s available context; it does not imply automatic retraining of the underlying model. Findings retain their scope, attribution, and evidence, and incomplete information remains visible rather than being replaced with confident guesses.
+
+## Keep contributors in control
+
+Repository analysis is enabled explicitly. Selected source material is scanned and sanitized locally before being sent to Meta, and the developer reviews what will become visible to teammates.
+
+Permission to use Meta for analysis and approval to publish knowledge are separate decisions. Human review remains central: Knect proposes interpretations, contributors supply missing reasoning, and authorized people decide what the team should retain.
+
+---
+
+**The code tells the team what changed. Knect helps them understand why it matters.**
+
+See [PLAN.md](PLAN.md) for the architecture, development milestones, evaluation strategy, and operating constraints.
